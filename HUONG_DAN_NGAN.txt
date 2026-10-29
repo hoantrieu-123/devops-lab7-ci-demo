@@ -1,0 +1,17 @@
+Lab 7 - Jenkins/Nexus/SonarQube (Windows + PowerShell)
+
+1. Extract folder Lab7_Starter.
+2. From that folder run: docker compose up -d
+3. Jenkins: http://localhost:8080 | Nexus: http://localhost:8081 | SonarQube: http://localhost:9000
+4. Configure Jenkins plugins: Pipeline, Git, JUnit, SonarQube Scanner, Config File Provider, Pipeline Stage View.
+5. Manage Jenkins > Tools: JDK21 at /opt/java/openjdk, Maven M3 auto-install.
+6. SonarQube create token and Jenkins Secret text ID sonarqube-token.
+7. Jenkins System > SonarQube servers: Name SonarQube, URL http://lab7-sonarqube:9000.
+8. Nexus use hosted Maven SNAPSHOT repository named maven-snapshots. Add Jenkins credentials ID nexus-credentials.
+9. Manage Jenkins > Managed files: Maven settings.xml ID maven-settings-nexus containing Maven server id=nexus with username ${env.NEXUS_USERNAME}, password ${env.NEXUS_PASSWORD}.
+10. Push root folder to GitHub; Jenkins Pipeline script from SCM, branch */main, Script Path Jenkinsfile.
+11. Click Build Now, verify 6 green stages and 6 JUnit tests.
+12. GitHub webhook requires public Jenkins URL; localhost cannot be reached from GitHub.
+
+NOTE: Use Jenkinsfile.basic as first trial if you want Build/Test/Package without SonarQube and Nexus. Copy its content over Jenkinsfile and commit; then restore full Jenkinsfile when you have configured the plugins and credentials.
+NOTE: Never put passwords or tokens in Git. Run docker compose down (without -v) to preserve data.
